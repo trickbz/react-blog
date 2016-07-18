@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 class Hello extends React.Component {
     render() {
-        return <h1>44</h1>
+        return <h1>xxxxxxxxx</h1>
     }
 }
 

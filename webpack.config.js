@@ -1,5 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
+var process = require('process');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var htmlWebapckPlugin = new HtmlWebpackPlugin({
     title: 'React Blog',
@@ -7,14 +8,11 @@ var htmlWebapckPlugin = new HtmlWebpackPlugin({
     inject: 'body'
 });
 
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-
 var config = {
-    context: path.join(__dirname, '/src/js'),
     entry: [
+        path.join(__dirname, '/src/js/main.js'),
         'webpack-dev-server/client?http://localhost:8080',
-        'webpack/hot/dev-server',
-        './main'
+        'webpack/hot/dev-server'
     ],
     devServer: {
         stats: {
@@ -34,12 +32,16 @@ var config = {
             publicPath: false
         },
         hot: true,
-        contentBase: './dist'
+        contentBase: path.join(__dirname, '/dist/'),
+        watchOptions: {
+            aggregateTimeout: 300,
+            poll: 1000
+        }
     },
     devtool: 'source-map',
     output: {
-        path: path.join(__dirname, '/dist'),
-        filename: '[name].js?[hash]',
+        path: path.join(__dirname, 'dist'),
+        filename: '[name].js',
         publicPath: '/'
     },
     module: {
@@ -56,9 +58,8 @@ var config = {
         ]
     },
     plugins: [
-        new webpack.HotModuleReplacementPlugin(),
-        htmlWebapckPlugin
-
+        htmlWebapckPlugin,
+        new webpack.HotModuleReplacementPlugin()
     ]
 };
 
