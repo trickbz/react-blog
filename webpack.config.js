@@ -46,10 +46,7 @@ var config = {
         loaders: [
             {
                 test: /\.scss$/,
-                loader: ExtractTextPlugin.extract(
-                    'style',
-                    'css?sourceMap!sass?sourceMap'
-                )
+                loaders: ['style', 'css', 'sass']
             },
             {
                 test: /\.jsx?$/,
@@ -60,8 +57,7 @@ var config = {
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
-        htmlWebapckPlugin,
-        new ExtractTextPlugin('public/styles.css?[hash]')
+        htmlWebapckPlugin
 
     ]
 };
