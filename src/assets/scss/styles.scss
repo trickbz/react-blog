@@ -1,0 +1,15 @@
+$primary-color: #0F0;
+$primary-margin: 10px;
+
+.container {
+
+  border: 1px solid $primary-color;
+  margin: $primary-margin;
+
+  h1 {
+    color: $primary-color;
+  }
+}
+
+
+

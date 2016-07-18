@@ -1,2 +1,3 @@
-import Hello from './components/hello.jsx';
-import World from './components/world.jsx';
+require('../assets/scss/styles.scss');
+require('./components/hello.jsx');
+require('./components/world.jsx');
