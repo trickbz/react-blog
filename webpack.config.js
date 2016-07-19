@@ -1,14 +1,19 @@
 var path = require('path');
 var webpack = require('webpack');
-var process = require('process');
+
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var htmlWebapckPlugin = new HtmlWebpackPlugin({
     title: 'React Blog',
     template: __dirname + '/src/index.html?[hash]',
     inject: 'body'
 });
+var CleanWebpackPlugin = require('clean-webpack-plugin');
 
-var config = {
+const developmentMode = 'development';
+const NODE_ENV = process.env.NODE_ENV || developmentMode;
+const isProd = NODE_ENV !== developmentMode;
+
+module.exports = {
     entry: [
         path.join(__dirname, '/src/js/main.js'),
         'webpack-dev-server/client?http://localhost:8080',
@@ -38,7 +43,7 @@ var config = {
             poll: 1000
         }
     },
-    devtool: 'source-map',
+    devtool: isProd ? null : 'cheap-inline-module-source-map',
     output: {
         path: path.join(__dirname, 'dist'),
         filename: '[name].js',
@@ -58,9 +63,29 @@ var config = {
         ]
     },
     plugins: [
+        new CleanWebpackPlugin(['dist'], {
+            root: __dirname,
+            verbose: true,
+            dry: false,
+            exclude: ['shared.js']
+        }),
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoErrorsPlugin(),
         htmlWebapckPlugin,
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.DefinePlugin({
+            IS_PRODUCTION: isProd
+        })
     ]
 };
 
-module.exports = config;
+if (isProd) {
+    module.exports.plugins.push(
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false,
+                drop_console: true,
+                unsafe: true
+            }
+        })
+    );
+}

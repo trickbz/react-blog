@@ -2,8 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 class World extends React.Component {
+    constructor() {
+        super();
+        console.log('govno');
+        debugger;
+    }
+    
     render() {
-        return <h1>1</h1>
+        return <h1>333</h1>
     }
 }
 
